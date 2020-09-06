@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "352349516114",
+    "firebase_url": "https://foodie-7d35f.firebaseio.com",
+    "project_id": "foodie-7d35f",
+    "storage_bucket": "foodie-7d35f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352349516114:android:0a959551794f31390f4a8b",
+        "android_client_info": {
+          "package_name": "com.example.food_ordering"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352349516114-be3ftl2dfidr86hae1dp6rjmjl84hgqi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVPvBnYVw0JUOf7ZSc-saV1lErq-FJHMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352349516114-be3ftl2dfidr86hae1dp6rjmjl84hgqi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
