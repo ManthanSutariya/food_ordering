@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:food_ordering/screen/more_info_screen.dart';
+import 'package:food_ordering/widgets/rating.dart';
 
 class StoreScreen extends StatefulWidget {
   final String storeName;
@@ -61,10 +62,20 @@ class _StoreScreenState extends State<StoreScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    'more info',
-                    style: TextStyle(
-                        color: Colors.red, fontSize: size.height / 40),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MoreInfoScreen(
+                          storeName: widget.storeName,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'more info',
+                      style: TextStyle(
+                          color: Colors.red, fontSize: size.height / 40),
+                    ),
                   )
                 ],
               ),
@@ -89,13 +100,15 @@ class _StoreScreenState extends State<StoreScreen> {
                 ),
                 Row(
                   children: [
-                    _rating(size: size, updateRating: (value){
-                      setState(() {
-                        currentRating =value;
-                      });
-                    }),
+                    CustomWidgets.rating(
+                        size: size,
+                        updateRating: (value) {
+                          setState(() {
+                            currentRating = value;
+                          });
+                        }),
                     Text(
-                      currentRating !=null ? currentRating.toString() : '0.0',
+                      currentRating != null ? currentRating.toString() : '0.0',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -329,9 +342,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                             height: size.height / 79,
                                           ),
                                           Text(
-                                            '\$ ${snapshot.data.docs[0]
-                                                .data()['products'][index]
-                                            ['price']}',
+                                            '\$ ${snapshot.data.docs[0].data()['products'][index]['price']}',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: size.height / 50),
@@ -409,36 +420,6 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 }
 
-_rating({size, Function updateRating}) {
-  return RatingBar(
-    initialRating: 3,
-    direction: Axis.horizontal,
-    allowHalfRating: true,
-    itemCount: 5,
-    itemSize: size.height / 60,
-    ratingWidget: RatingWidget(
-      full: Icon(
-        FontAwesome5.heart,
-        color: Colors.red,
-      ),
-      //_image('assets/heart.png'),
-      half: Icon(
-        FontAwesome5.heart,
-        color: Colors.white,
-      ),
-      //_image('assets/heart_half.png'),
-      empty: Icon(
-        FontAwesome5.heart,
-        color: Colors.black12,
-      ), //_image('assets/heart_border.png'),
-    ),
-    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-    onRatingUpdate: (rating) {
-      updateRating(rating);
-    },
-  );
-}
-
 _buttomSheet({context, size, AsyncSnapshot snapshot, index}) {
   showModalBottomSheet(
     context: context,
@@ -489,9 +470,10 @@ _buttomSheet({context, size, AsyncSnapshot snapshot, index}) {
                         height: size.height / 50,
                       ),
                       Text(
-                        '\$ ${snapshot.data.docs[0].data()['products'][index]
-                        ['price']}',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: size.height/47),
+                        '\$ ${snapshot.data.docs[0].data()['products'][index]['price']}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: size.height / 47),
                       ),
                     ],
                   ),
