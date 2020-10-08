@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_ordering/screen/crawings_screen.dart';
-import 'package:food_ordering/screen/storescreen.dart';
+import 'file:///C:/AndroidStudioProject/food_ordering/lib/screens/home_screen/crawings_screen.dart';
+import 'package:food_ordering/screens/storescreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

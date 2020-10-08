@@ -1,24 +1,29 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:food_ordering/screen/loginscreen.dart';
-import 'package:food_ordering/screen/profile.dart';
-import 'package:splashscreen/splashscreen.dart';
+import 'package:food_ordering/screens/cart_screen/cart.dart';
+import 'package:food_ordering/screens/profile/null_profile.dart';
+import 'package:food_ordering/screens/profile/profile.dart';
+import 'package:food_ordering/screens/provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_ordering/screen/homescreen.dart';
-import 'screen/search_screen.dart';
-
-
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+import 'file:///C:/AndroidStudioProject/food_ordering/lib/screens/home_screen/homescreen.dart';
+import 'screens/search_screen/search_screen.dart';
 
 void main() async {
+  GetIt.I.registerLazySingleton<Cart>(() => Cart());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    MaterialApp(
-        theme: ThemeData(fontFamily: 'Comfortaa'),
-        debugShowCheckedModeBanner: false,
-        home: Splash()),
+    ChangeNotifierProvider(
+      create: (context) => CurrentUser(),
+      child: MaterialApp(
+          theme: ThemeData(fontFamily: 'Comfortaa'),
+          debugShowCheckedModeBanner: false,
+          home: MyApp()),
+    ),
   );
 }
 
@@ -30,10 +35,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int pageIndex = 0;
 
-  List<Widget> pages = [HomeScreen(), SreachScreen(), Profile()];
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = [
+      HomeScreen(),
+      SreachScreen(),
+      CartScreen(),
+      Provider.of<CurrentUser>(context).currentUser == null
+          ? ProfileNull()
+          : Profile()
+    ];
     final size = MediaQuery.of(context).size;
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
@@ -42,12 +53,17 @@ class _MyAppState extends State<MyApp> {
         color: Colors.redAccent,
         items: <Widget>[
           Icon(
-            Icons.add,
+            Icons.home,
             size: size.height / 30,
             color: Colors.white,
           ),
           Icon(
             FontAwesome.search,
+            size: size.height / 35,
+            color: Colors.white,
+          ),
+          Icon(
+            FontAwesome.opencart,
             size: size.height / 35,
             color: Colors.white,
           ),
@@ -66,25 +82,6 @@ class _MyAppState extends State<MyApp> {
       ),
       resizeToAvoidBottomPadding: false,
       body: pages[pageIndex],
-    );
-  }
-}
-
-var user;
-
-class Splash extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return SplashScreen(
-      seconds: 5,
-      image: Image(
-        image: NetworkImage(
-            'https://cdn6.f-cdn.com/contestentries/1015573/24019110/590aa4718b9de_thumb900.jpg'),
-      ),
-      photoSize: size.height / 4,
-      loaderColor: Colors.white,
-      navigateAfterSeconds: user==null? LoginScreen() : MyApp(),
     );
   }
 }

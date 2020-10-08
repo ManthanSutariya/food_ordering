@@ -1,17 +1,16 @@
 import 'dart:convert' as JSON;
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:food_ordering/screen/homescreen.dart';
-import 'package:food_ordering/screen/login_with_email.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:food_ordering/main.dart';
+import 'file:///C:/AndroidStudioProject/food_ordering/lib/screens/home_screen/homescreen.dart';
+import 'package:food_ordering/screens/sign_up/login_with_email.dart';
 import 'package:http/http.dart' as http;
 
-final facebookLogin = FacebookLogin();
+final _firebaseAuth = FirebaseAuth.instance;
 TextEditingController _countryCode = TextEditingController();
 TextEditingController _phoneNumber = TextEditingController();
-final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 var currentUser;
 
 class LoginScreen extends StatefulWidget {
@@ -38,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         leading: GestureDetector(
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                context, MaterialPageRoute(builder: (context) => MyApp()));
           },
           child: Icon(
             Icons.keyboard_arrow_down,
@@ -137,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 }),
             signInButton(
                 icon: FontAwesome.apple,
-                title: 'Continue With Email',
+                title: 'Continue With Apple-Id',
                 color: Colors.black54,
                 size: size,
                 function: () {}),
@@ -148,15 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     title: 'Facebook',
                     color: Colors.blue,
                     size: size,
-                    function: () async {
-                      final result = await facebookLogin.logIn(['email']);
-
-                      final token = result.accessToken;
-                      final graphRespose = await http.get(
-                          'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
-                      final profile = JSON.jsonDecode(graphRespose.body);
-                      print(profile);
-                    }),
+                    function: () {}),
               ),
               SizedBox(
                 width: size.width / 50,
@@ -168,11 +159,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.redAccent,
                     size: size,
                     function: () async {
-                      final user = await _googleSignIn.signIn();
-                      setState(() {
-                        currentUser = user;
-                        print(currentUser);
-                      });
+                      final anonymusUser =
+                          await _firebaseAuth.signInAnonymously();
+                      print(anonymusUser.user.uid);
+                      // final user = await _googleSignIn.signIn();
+                      // setState(() {
+                      //   currentUser = user;
+                      //   print(currentUser);
+                      // });
                     }),
               ),
             ]),

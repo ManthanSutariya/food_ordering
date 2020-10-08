@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:food_ordering/screen/more_info_screen.dart';
+import 'package:food_ordering/screens/more_info_screen.dart';
+import 'package:food_ordering/widgets/addBotton.dart';
 import 'package:food_ordering/widgets/rating.dart';
 
 class StoreScreen extends StatefulWidget {
@@ -207,46 +208,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                             FontWeight.bold),
                                                   ),
                                                 ),
-                                                GestureDetector(
-                                                  onTap: () {},
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(
-                                                        size.height / 150),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color:
-                                                              Colors.black45),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                        Radius.circular(
-                                                            size.width / 60),
-                                                      ),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .end,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.add,
-                                                          size:
-                                                              size.height / 40,
-                                                          color: Colors.red,
-                                                        ),
-                                                        Text(
-                                                          'ADD',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
+                                                getAddToCartBotton(
+                                                    size: size,
+                                                    context: context),
                                               ],
                                             ),
                                           )
@@ -363,39 +327,23 @@ class _StoreScreenState extends State<StoreScreen> {
                                           )
                                         ],
                                       ),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding:
-                                              EdgeInsets.all(size.height / 150),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black45),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(size.width / 60),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Icon(
-                                                Icons.add,
-                                                size: size.height / 40,
-                                                color: Colors.red,
-                                              ),
-                                              Text(
-                                                'ADD',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                      getAddToCartBotton(
+                                          name: snapshot.data.docs[0].data()['products']
+                                              [index]['name'],
+                                          price: snapshot.data.docs[0]
+                                                  .data()['products'][index]
+                                              ['price'],
+                                          descripion: snapshot.data.docs[0]
+                                                  .data()['products'][index]
+                                              ['price'],
+                                          imageUrl: snapshot.data.docs[0]
+                                                  .data()['products'][index]
+                                              ['imageUrl'],
+                                          storeName: widget.storeName,
+                                          address: snapshot.data.docs[0]
+                                              .data()['address'],
+                                          size: size,
+                                          context: context),
                                     ],
                                   ),
                                 );
